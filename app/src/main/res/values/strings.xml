@@ -9,4 +9,15 @@
     <string name="pref_location_label">Postal Code</string>
     <string name="pref_location_key">location</string>
     <string name="pref_location_default">94043</string>
+    <string name="pref_units_label">Units</string>
+    <string name="pref_units_key">units</string>
+    <string name="pref_units_default">Metric</string>
+    <string name="units_imperial">Imperial</string>
+    <string name="units_metric">Metric</string>
+    <string name="units_imperial_symbol">F</string>
+    <string name="units_metric_symbol">C</string>
+    <string-array name="units_list">
+        <item>@string/units_metric</item>
+        <item>@string/units_imperial</item>
+    </string-array>
 </resources>
