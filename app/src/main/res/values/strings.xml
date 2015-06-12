@@ -6,4 +6,7 @@
     <string name="list_item_forecast_text">Today - Sunny - 32/25</string>
     <string name="title_activity_detail">Weather Details</string>
     <string name="title_activity_settings">Weather Settings</string>
+    <string name="pref_location_label">Postal Code</string>
+    <string name="pref_location_key">location</string>
+    <string name="pref_location_default">94043</string>
 </resources>

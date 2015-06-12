@@ -1,12 +1,16 @@
 package com.vincentramdhanie.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,10 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
+        if(id == R.id.action_settings){
+            Log.i(LOG_TAG, "The Settings button was clicked on the main activity");
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -53,7 +53,7 @@ public class ForecastFragment extends Fragment {
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>(Arrays.asList(tempForecast)));
         forecastList.setAdapter(adapter);
 
-        forecastList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        forecastList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
