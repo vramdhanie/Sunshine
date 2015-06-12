@@ -1,5 +1,6 @@
 package com.vincentramdhanie.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -20,6 +22,10 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        Intent intent = getIntent();
+        String forecast = intent.getStringExtra("forecast");
+        Toast.makeText(this, forecast, Toast.LENGTH_SHORT).show();
     }
 
 
