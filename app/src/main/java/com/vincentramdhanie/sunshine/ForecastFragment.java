@@ -57,7 +57,7 @@ public class ForecastFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String)parent.getItemAtPosition(position);
+                String item = adapter.getItem(position);
                 Toast.makeText(getActivity(),item,Toast.LENGTH_LONG).show();
             }
         });
