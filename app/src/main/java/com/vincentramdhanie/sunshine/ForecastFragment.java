@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,14 +26,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment {
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
+    private ArrayAdapter<String> adapter;
+    ListView forecastList;
 
     public ForecastFragment() {
+
     }
 
     @Override
@@ -39,13 +46,17 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
-
+        forecastList  = (ListView)rootView.findViewById(R.id.listview_forecast);
+        String[] tempForecast = {"Please refresh"};
+        adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>(Arrays.asList(tempForecast)));
+        forecastList.setAdapter(adapter);
         return rootView;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
+
     }
 
     @Override
@@ -55,6 +66,7 @@ public class ForecastFragment extends Fragment {
         if (id == R.id.action_refresh) {
             Log.i(LOG_TAG, "The Refresh button was clicked");
             new FetchWeatherTask().execute("94043");
+
             return true;
         }
 
@@ -153,9 +165,6 @@ public class ForecastFragment extends Fragment {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v(LOG_TAG, "Forecast entry: " + s);
-        }
         return resultStrs;
 
     }
@@ -172,7 +181,7 @@ public class ForecastFragment extends Fragment {
 
             String format = "json";
             String units = "metric";
-            String numDays = "7";
+            int numDays = 7;
 
             final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily";
             final String QUERY_PARAM = "q";
@@ -185,10 +194,8 @@ public class ForecastFragment extends Fragment {
                     .appendQueryParameter(QUERY_PARAM, postalCode)
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNIT_PARAM, units)
-                    .appendQueryParameter(DAYS_PARAM, numDays)
+                    .appendQueryParameter(DAYS_PARAM, String.valueOf(numDays))
                     .build();
-
-            Log.v(LOG_TAG, apiUrl.toString());
             // These two need to be declared outside the try/catch
 // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -225,8 +232,8 @@ public class ForecastFragment extends Fragment {
                     return null;
                 }
                 forecastJsonStr = buffer.toString();
-                Log.i(LOG_TAG, forecastJsonStr);
-                result = getWeatherDataFromJson(forecastJsonStr, 7);
+
+                result = getWeatherDataFromJson(forecastJsonStr, numDays);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
 // If the code didn't successfully get the weather data, there's no point in attempting
@@ -248,6 +255,15 @@ public class ForecastFragment extends Fragment {
             }
 
             return result;
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            super.onPostExecute(strings);
+            if(strings != null) {
+                adapter.clear();
+                adapter.addAll(Arrays.asList(strings));
+            }
         }
     }
 
