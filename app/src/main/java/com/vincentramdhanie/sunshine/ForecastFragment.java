@@ -46,12 +46,18 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
         forecastList  = (ListView)rootView.findViewById(R.id.listview_forecast);
-        String[] tempForecast = {"Please refresh"};
+        String[] tempForecast = {"Weather data loading..."};
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>(Arrays.asList(tempForecast)));
         forecastList.setAdapter(adapter);
 
@@ -74,17 +80,20 @@ public class ForecastFragment extends Fragment {
 
     }
 
+    public void updateWeather(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        new FetchWeatherTask().execute(preferences.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default)));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
             Log.i(LOG_TAG, "The Refresh button was clicked");
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-            new FetchWeatherTask().execute(preferences.getString(getString(R.string.pref_location_key),
-                    getString(R.string.pref_location_default)));
-
+            updateWeather();
             return true;
         }
 
