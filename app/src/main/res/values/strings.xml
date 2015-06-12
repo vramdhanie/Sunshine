@@ -5,4 +5,5 @@
     <string name="action_refresh">Refresh</string>
     <string name="list_item_forecast_text">Today - Sunny - 32/25</string>
     <string name="title_activity_detail">Weather Details</string>
+    <string name="title_activity_settings">Weather Settings</string>
 </resources>
