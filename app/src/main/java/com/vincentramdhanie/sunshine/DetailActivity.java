@@ -9,9 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class DetailActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +24,6 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        Intent intent = getIntent();
-        String forecast = intent.getStringExtra("forecast");
-        Toast.makeText(this, forecast, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -64,6 +62,12 @@ public class DetailActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+            TextView view = (TextView)rootView.findViewById(R.id.forecast_detail);
+
+            Intent intent = getActivity().getIntent();
+            String forecast = intent.getStringExtra("forecast");
+
+            view.setText(forecast);
             return rootView;
         }
     }
